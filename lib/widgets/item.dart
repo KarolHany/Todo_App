@@ -26,7 +26,7 @@ class ToDoItem extends StatelessWidget {
           leading: toDo.isDone
               ? Icon(
                   Icons.check_box,
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 197, 29, 209),
                 )
               : Icon(
                   Icons.check_box_outline_blank,
@@ -42,7 +42,7 @@ class ToDoItem extends StatelessWidget {
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 120, 180, 122),
+              color: const Color.fromARGB(255, 239, 26, 11),
               borderRadius: BorderRadius.circular(5),
             ),
             child: IconButton(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/model/todo.dart';
-import 'package:todo_list/widgets/textbox.dart';
 
 import '../widgets/item.dart';
 
@@ -12,27 +11,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ToDo> _foundToDo = [];
+  List<ToDo> foundToDo = [];
   final todolist = ToDo.todoList;
-  static final _todoController = TextEditingController();
+  final todoController = TextEditingController();
+  final searchboxController = TextEditingController();
 
   void initState() {
-    _foundToDo = todolist;
+    foundToDo = todolist;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(252, 186, 220, 229),
+        backgroundColor: Color.fromARGB(250, 254, 215, 255),
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(252, 186, 220, 229),
+          backgroundColor: Color.fromARGB(250, 254, 215, 255),
           elevation: 0,
           centerTitle: true,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.menu),
+              Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
               Container(
                 height: 50,
                 width: 50,
@@ -66,8 +69,8 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: TextField(
-                        onChanged: (value) => _runFilter(value),
-                        controller: _todoController,
+                        onChanged: (value) => runFilter(value),
+                        controller: searchboxController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0),
                           prefixIcon: Icon(
@@ -100,11 +103,11 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        for (ToDo toDoo in _foundToDo.reversed)
+                        for (ToDo toDoo in foundToDo.reversed)
                           ToDoItem(
                               toDo: toDoo,
-                              onChangeToDo: _handleToDo,
-                              onDeleteItem: _deleteToDo),
+                              onChangeToDo: handleToDo,
+                              onDeleteItem: deleteToDo),
                       ],
                     ),
                   )
@@ -117,25 +120,29 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      margin: const EdgeInsets.only(
+                        bottom: 20,
+                        right: 20,
+                        left: 20,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.grey,
                             offset: Offset(0.0, 0.0),
                             blurRadius: 10.0,
-                            spreadRadius: 0,
-                          ),
+                            spreadRadius: 0.0,
+                          )
                         ],
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextField(
-                        controller: _todoController,
-                        decoration: InputDecoration(
-                          hintText: 'Add a new task',
+                        controller: todoController,
+                        decoration: const InputDecoration(
+                          hintText: 'Add a new todo item',
                           border: InputBorder.none,
                         ),
                       ),
@@ -145,14 +152,17 @@ class _HomePageState extends State<HomePage> {
                     margin: EdgeInsets.only(bottom: 20, right: 20),
                     child: ElevatedButton(
                       onPressed: () {
-                        _addToDoItem(_todoController.text);
+                        final newTask = todoController.text;
+                        if (newTask.trim().isNotEmpty) {
+                          addToDoItem(todoController.text);
+                        }
                       },
                       child: Text(
                         "+",
                         style: TextStyle(fontSize: 40),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xffA4B3D4),
+                        backgroundColor: Color.fromARGB(255, 147, 19, 126),
                         minimumSize: Size(60, 60),
                         elevation: 10,
                       ),
@@ -165,39 +175,39 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  void _handleToDo(ToDo toDo) {
+  void handleToDo(ToDo toDo) {
     setState(() {
       toDo.isDone = !toDo.isDone;
     });
   }
 
-  void _deleteToDo(String id) {
+  void deleteToDo(String id) {
     setState(() {
-      todolist.removeWhere((item) => item.id == id);
+      todolist.removeWhere((element) => element.id == id);
     });
   }
 
-  void _addToDoItem(String toDo) {
+  void addToDoItem(String toDo) {
     setState(() {
       todolist.add(ToDo(
           id: DateTime.now().millisecondsSinceEpoch.toString(),
           todoText: toDo));
     });
-    _todoController.clear();
+    todoController.clear();
   }
 
-  void _runFilter(String keyword) {
+  void runFilter(String keyword) {
     List<ToDo> results = [];
     if (keyword.isEmpty) {
       results = todolist;
     } else {
       results = todolist
-          .where((item) =>
-              item.todoText.toLowerCase().contains(keyword.toLowerCase()))
+          .where((element) =>
+              element.todoText.toLowerCase().contains(keyword.toLowerCase()))
           .toList();
     }
     setState(() {
-      _foundToDo = results;
+      foundToDo = results;
     });
   }
 }
