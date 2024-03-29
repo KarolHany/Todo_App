@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
+               Icon(
                 Icons.menu,
                 color: Colors.black,
               ),
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(
+              padding:  EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 40,
               ),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: Container(
-                      padding: EdgeInsets.symmetric(
+                      padding:  EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
                       decoration: BoxDecoration(
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                       child: TextField(
                         onChanged: (value) => runFilter(value),
                         controller: searchboxController,
-                        decoration: InputDecoration(
+                        decoration:  InputDecoration(
                           contentPadding: EdgeInsets.all(0),
                           prefixIcon: Icon(
                             Icons.search,
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           margin:
                               EdgeInsets.only(top: 50, bottom: 30, left: 16),
-                          child: Text(
+                          child:  Text(
                             "All ToDos",
                             style: TextStyle(
                                 fontSize: 30,
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: TextField(
                         controller: todoController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           hintText: 'Add a new todo item',
                           border: InputBorder.none,
                         ),
